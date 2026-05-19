@@ -1,0 +1,73 @@
+{
+ "actions": [],
+ "creation": "2026-05-19 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "ref_doctype",
+  "fieldname",
+  "lock_after_insert",
+  "agent_always_lock"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "columns": 2,
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "ref_doctype",
+   "fieldtype": "Link",
+   "columns": 2,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "DocType",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fieldname",
+   "fieldtype": "Data",
+   "columns": 2,
+   "in_list_view": 1,
+   "label": "Fieldname",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "lock_after_insert",
+   "fieldtype": "Check",
+   "columns": 2,
+   "in_list_view": 1,
+   "label": "Leaders Can Set When Creating"
+  },
+  {
+   "default": "0",
+   "fieldname": "agent_always_lock",
+   "fieldtype": "Check",
+   "columns": 2,
+   "in_list_view": 1,
+   "label": "Agents Cannot Change"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "SRIAAS Role Permissions",
+ "name": "SRIAAS Role Permission Locked Field",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

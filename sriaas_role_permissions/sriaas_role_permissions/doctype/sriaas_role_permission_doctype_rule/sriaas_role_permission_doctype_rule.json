@@ -1,0 +1,94 @@
+{
+ "actions": [],
+ "creation": "2026-05-19 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "ref_doctype",
+  "pipeline_doctype",
+  "pipeline_fieldname",
+  "owner_fieldname",
+  "team_leader_fieldname",
+  "team_leader_label",
+  "agent_label",
+  "privileged_label"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "ref_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "DocType",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pipeline_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Pipeline Permission Doctype",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "pipeline_fieldname",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Pipeline Fieldname"
+  },
+  {
+   "fieldname": "owner_fieldname",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Owner Fieldname"
+  },
+  {
+   "fieldname": "team_leader_fieldname",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Team Leader Fieldname on User"
+  },
+  {
+   "default": "Team Leader",
+   "fieldname": "team_leader_label",
+   "fieldtype": "Data",
+   "label": "Team Leader Label"
+  },
+  {
+   "default": "Agent",
+   "fieldname": "agent_label",
+   "fieldtype": "Data",
+   "label": "Agent Label"
+  },
+  {
+   "default": "Privileged",
+   "fieldname": "privileged_label",
+   "fieldtype": "Data",
+   "label": "Privileged Label"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-19 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "SRIAAS Role Permissions",
+ "name": "SRIAAS Role Permission Doctype Rule",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
