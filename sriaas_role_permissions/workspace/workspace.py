@@ -9,6 +9,9 @@ WORKSPACE_NAME = "SRIAAS Role Permissions"
 
 
 def create_workspace():
+    if not frappe.db.exists("DocType", "SRIAAS Role Permission Settings"):
+        return
+
     if frappe.db.exists("Workspace", WORKSPACE_NAME):
         doc = frappe.get_doc("Workspace", WORKSPACE_NAME)
     else:
