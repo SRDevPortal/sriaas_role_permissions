@@ -22,7 +22,7 @@ def create_workspace():
     doc.title = WORKSPACE_NAME
     doc.module = "SRIAAS Role Permissions"
     doc.app = "sriaas_role_permissions"
-    doc.public = 1
+    doc.public = 0
     doc.is_standard = 1
     doc.icon = "users"
     doc.category = "Modules"
