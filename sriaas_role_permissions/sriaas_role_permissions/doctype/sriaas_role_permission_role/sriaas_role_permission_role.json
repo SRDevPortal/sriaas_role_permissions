@@ -33,7 +33,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Role Type",
-   "options": "Team Leader\nAgent\nPrivileged",
+   "options": "Team Leader\nAgent\nPrivileged\nPayment Viewer",
    "reqd": 1
   },
   {
@@ -62,4 +62,3 @@
  "states": [],
  "track_changes": 1
 }
-
