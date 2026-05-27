@@ -10,13 +10,19 @@ DEFAULT_ROLE_ROWS = (
     ("CRM Lead", "Team Leader", "Team Leader"),
     ("CRM Lead", "Agent", "Agent"),
     ("CRM Lead", "Privileged", "System Manager"),
+    ("Patient", "Payment Viewer", "System Manager"),
+    ("Patient", "Payment Viewer", "Accounts Manager"),
+    ("Patient", "Payment Viewer", "Accounts User"),
 )
 DEFAULT_RULES = {
     "CRM Lead": {
         "Team Leader": {"Team Leader"},
         "Agent": {"Agent"},
         "Privileged": {"System Manager"},
-    }
+    },
+    "Patient": {
+        "Payment Viewer": {"System Manager", "Accounts Manager", "Accounts User"},
+    },
 }
 
 
