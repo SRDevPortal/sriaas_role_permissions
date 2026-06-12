@@ -9,6 +9,7 @@
   "ref_doctype",
   "fieldname",
   "lock_after_insert",
+  "leaders_can_change",
   "agent_always_lock"
  ],
  "fields": [
@@ -16,7 +17,7 @@
    "default": "1",
    "fieldname": "enabled",
    "fieldtype": "Check",
-   "columns": 2,
+   "columns": 1,
    "in_list_view": 1,
    "label": "Enabled"
   },
@@ -45,6 +46,14 @@
    "columns": 2,
    "in_list_view": 1,
    "label": "Leaders Can Set When Creating"
+  },
+  {
+   "default": "0",
+   "fieldname": "leaders_can_change",
+   "fieldtype": "Check",
+   "columns": 2,
+   "in_list_view": 1,
+   "label": "Leaders Can Change"
   },
   {
    "default": "0",

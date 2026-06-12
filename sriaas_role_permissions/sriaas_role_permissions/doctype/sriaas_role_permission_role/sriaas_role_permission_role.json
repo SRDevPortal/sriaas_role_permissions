@@ -12,6 +12,7 @@
  ],
  "fields": [
   {
+   "columns": 1,
    "default": "1",
    "fieldname": "enabled",
    "fieldtype": "Check",

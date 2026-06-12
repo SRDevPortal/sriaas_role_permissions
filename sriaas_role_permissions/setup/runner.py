@@ -69,7 +69,11 @@ def ensure_default_settings():
         if not frappe.db.exists("DocType", ref_doctype):
             continue
 
-        fieldnames = set(groups.get("lock_after_insert", set())) | set(groups.get("agent_always_lock", set()))
+        fieldnames = (
+            set(groups.get("lock_after_insert", set()))
+            | set(groups.get("leaders_can_change", set()))
+            | set(groups.get("agent_always_lock", set()))
+        )
         for fieldname in sorted(fieldnames):
             if (ref_doctype, fieldname) in existing_locked:
                 continue
@@ -83,6 +87,7 @@ def ensure_default_settings():
                     "ref_doctype": ref_doctype,
                     "fieldname": fieldname,
                     "lock_after_insert": fieldname in groups.get("lock_after_insert", set()),
+                    "leaders_can_change": fieldname in groups.get("leaders_can_change", set()),
                     "agent_always_lock": fieldname in groups.get("agent_always_lock", set()),
                 },
             )

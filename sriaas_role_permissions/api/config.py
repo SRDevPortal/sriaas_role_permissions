@@ -74,12 +74,13 @@ def get_doctype_config(ref_doctype: str) -> DoctypeConfig:
 
 def get_locked_fields(ref_doctype: str) -> dict[str, set[str]]:
     configured = _get_enabled_locked_fields(ref_doctype)
-    if configured["lock_after_insert"] or configured["agent_always_lock"]:
+    if configured["lock_after_insert"] or configured["leaders_can_change"] or configured["agent_always_lock"]:
         return configured
 
     default = DEFAULT_LOCKED_FIELDS.get(ref_doctype, {})
     return {
         "lock_after_insert": set(default.get("lock_after_insert", set())),
+        "leaders_can_change": set(default.get("leaders_can_change", set())),
         "agent_always_lock": set(default.get("agent_always_lock", set())),
     }
 
@@ -90,6 +91,7 @@ def get_context(ref_doctype: str) -> dict:
     return {
         **config.as_dict(),
         "lock_after_insert_fields": sorted(locked["lock_after_insert"]),
+        "leaders_can_change_fields": sorted(locked["leaders_can_change"]),
         "agent_always_lock_fields": sorted(locked["agent_always_lock"]),
     }
 
@@ -137,7 +139,7 @@ def _get_enabled_config_row(ref_doctype: str):
 
 
 def _get_enabled_locked_fields(ref_doctype: str) -> dict[str, set[str]]:
-    fields = {"lock_after_insert": set(), "agent_always_lock": set()}
+    fields = {"lock_after_insert": set(), "leaders_can_change": set(), "agent_always_lock": set()}
     if not frappe.db.exists("DocType", SETTINGS_DOCTYPE):
         return fields
 
@@ -150,6 +152,8 @@ def _get_enabled_locked_fields(ref_doctype: str) -> dict[str, set[str]]:
             continue
         if row.lock_after_insert:
             fields["lock_after_insert"].add(row.fieldname)
+        if row.get("leaders_can_change"):
+            fields["leaders_can_change"].add(row.fieldname)
         if row.agent_always_lock:
             fields["agent_always_lock"].add(row.fieldname)
 

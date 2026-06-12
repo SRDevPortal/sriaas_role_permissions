@@ -8,3 +8,6 @@ app_license = "mit"
 after_install = "sriaas_role_permissions.install.after_install"
 after_migrate = "sriaas_role_permissions.install.after_migrate"
 
+doctype_js = {
+	"CRM Lead": "public/js/field_policy.js",
+}
