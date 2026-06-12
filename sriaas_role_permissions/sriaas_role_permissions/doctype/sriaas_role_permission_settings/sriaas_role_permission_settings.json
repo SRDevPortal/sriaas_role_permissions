@@ -41,12 +41,12 @@
   {
    "fieldname": "locked_fields_section",
    "fieldtype": "Section Break",
-   "label": "Field Edit Rules"
+   "label": "Field Rules"
   },
   {
    "fieldname": "locked_fields",
    "fieldtype": "Table",
-   "label": "Field Edit Rules",
+   "label": "Field Rules",
    "options": "SRIAAS Role Permission Locked Field"
   },
   {

@@ -25,6 +25,7 @@
    "label": "Enabled"
   },
   {
+   "columns": 1,
    "fieldname": "ref_doctype",
    "fieldtype": "Link",
    "in_list_view": 1,
