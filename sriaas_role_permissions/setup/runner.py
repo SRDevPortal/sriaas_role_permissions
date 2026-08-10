@@ -2,14 +2,16 @@ from __future__ import annotations
 
 import frappe
 
-from sriaas_role_permissions.api.config import DEFAULT_DOCTYPE_CONFIGS, DEFAULT_LOCKED_FIELDS
+from sriaas_role_permissions.api.config import (
+    DEFAULT_DOCTYPE_CONFIGS,
+    DEFAULT_LOCKED_FIELDS,
+    get_available_doctype_config,
+)
 from sriaas_role_permissions.api.roles import DEFAULT_ROLE_ROWS
-from sriaas_role_permissions.workspace.workspace import create_workspace
 
 
 def setup_all():
     ensure_default_settings()
-    create_workspace()
     frappe.clear_cache()
 
 
@@ -50,15 +52,23 @@ def ensure_default_settings():
         changed = True
 
     existing_configs = {
-        row.ref_doctype
+        row.ref_doctype: row
         for row in settings.get("doctype_configs")
         if row.ref_doctype
     }
     for ref_doctype, config in DEFAULT_DOCTYPE_CONFIGS.items():
-        if ref_doctype in existing_configs or not frappe.db.exists("DocType", ref_doctype):
+        if not frappe.db.exists("DocType", ref_doctype):
             continue
-        settings.append("doctype_configs", {"enabled": 1, **config})
-        changed = True
+
+        available_config = get_available_doctype_config(ref_doctype, config)
+        if row := existing_configs.get(ref_doctype):
+            for fieldname, value in available_config.items():
+                if fieldname != "ref_doctype" and value and not row.get(fieldname):
+                    row.set(fieldname, value)
+                    changed = True
+        else:
+            settings.append("doctype_configs", {"enabled": 1, **available_config})
+            changed = True
 
     existing_locked = {
         (row.ref_doctype, row.fieldname)

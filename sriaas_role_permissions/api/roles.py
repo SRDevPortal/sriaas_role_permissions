@@ -2,7 +2,11 @@ from __future__ import annotations
 
 import frappe
 
-from sriaas_role_permissions.api.config import DEFAULT_DOCTYPE_CONFIGS, DEFAULT_LOCKED_FIELDS
+from sriaas_role_permissions.api.config import (
+    DEFAULT_DOCTYPE_CONFIGS,
+    DEFAULT_LOCKED_FIELDS,
+    get_available_doctype_config,
+)
 
 
 SETTINGS_DOCTYPE = "SRIAAS Role Permission Settings"
@@ -134,18 +138,27 @@ def reset_default_crm_lead_roles() -> dict:
         added.append({"doctype": ref_doctype, "role_type": role_type, "role": role})
 
     existing_configs = {
-        row.ref_doctype
+        row.ref_doctype: row
         for row in settings.get("doctype_configs")
         if row.ref_doctype
     }
     for ref_doctype, config in DEFAULT_DOCTYPE_CONFIGS.items():
-        if ref_doctype in existing_configs:
-            continue
         if not frappe.db.exists("DocType", ref_doctype):
             skipped.append({"doctype": ref_doctype, "reason": "Missing DocType"})
             continue
-        settings.append("doctype_configs", {"enabled": 1, **config})
-        config_added.append({"doctype": ref_doctype})
+
+        available_config = get_available_doctype_config(ref_doctype, config)
+        if row := existing_configs.get(ref_doctype):
+            updated_fields = []
+            for fieldname, value in available_config.items():
+                if fieldname != "ref_doctype" and value and not row.get(fieldname):
+                    row.set(fieldname, value)
+                    updated_fields.append(fieldname)
+            if updated_fields:
+                config_added.append({"doctype": ref_doctype, "updated_fields": updated_fields})
+        else:
+            settings.append("doctype_configs", {"enabled": 1, **available_config})
+            config_added.append({"doctype": ref_doctype})
 
     existing_locked = {
         (row.ref_doctype, row.fieldname)
