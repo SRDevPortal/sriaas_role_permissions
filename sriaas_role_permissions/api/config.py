@@ -25,6 +25,17 @@ DEFAULT_LOCKED_FIELDS = {
     }
 }
 
+CONFIG_LABEL_FIELDS = (
+    "team_leader_label",
+    "agent_label",
+    "privileged_label",
+)
+CONFIG_REFERENCE_FIELDS = {
+    "pipeline_fieldname": None,
+    "owner_fieldname": None,
+    "team_leader_fieldname": "User",
+}
+
 
 @dataclass(frozen=True)
 class DoctypeConfig:
@@ -39,6 +50,27 @@ class DoctypeConfig:
 
     def as_dict(self) -> dict:
         return asdict(self)
+
+
+def get_available_doctype_config(ref_doctype: str, config: dict) -> dict:
+    """Return default values whose referenced DocTypes and fields exist."""
+    available = {"ref_doctype": ref_doctype}
+
+    pipeline_doctype = config.get("pipeline_doctype")
+    if pipeline_doctype and frappe.db.exists("DocType", pipeline_doctype):
+        available["pipeline_doctype"] = pipeline_doctype
+
+    for fieldname, default_target in CONFIG_REFERENCE_FIELDS.items():
+        value = config.get(fieldname)
+        target_doctype = default_target or ref_doctype
+        if value and frappe.db.has_column(target_doctype, value):
+            available[fieldname] = value
+
+    for fieldname in CONFIG_LABEL_FIELDS:
+        if value := config.get(fieldname):
+            available[fieldname] = value
+
+    return available
 
 
 def get_doctype_config(ref_doctype: str) -> DoctypeConfig:
