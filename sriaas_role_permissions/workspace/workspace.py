@@ -22,12 +22,15 @@ def create_workspace():
     doc.title = WORKSPACE_NAME
     doc.module = "SRIAAS Role Permissions"
     doc.app = "sriaas_role_permissions"
-    doc.public = 0
-    doc.is_standard = 1
+    doc.type = "Workspace"
+    doc.public = 1
+    doc.for_user = ""
     doc.icon = "users"
-    doc.category = "Modules"
     doc.sequence_id = 999
     doc.hide_custom = 0
+
+    doc.set("roles", [])
+    doc.append("roles", {"role": "System Manager"})
     doc.content = json.dumps(
         [
             {

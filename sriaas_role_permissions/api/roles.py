@@ -82,6 +82,7 @@ def get_user_permission_context(ref_doctype: str) -> dict:
 
 @frappe.whitelist()
 def test_current_user_access(ref_doctype: str = "CRM Lead") -> dict:
+    frappe.only_for("System Manager")
     return get_user_permission_context(ref_doctype)
 
 
