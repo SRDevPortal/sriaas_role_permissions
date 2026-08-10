@@ -95,4 +95,3 @@ def ensure_default_settings():
 
     if changed:
         settings.save(ignore_permissions=True)
-        frappe.db.commit()
