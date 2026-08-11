@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
 import frappe
-from frappe.tests.utils import FrappeTestCase
+from frappe.tests import UnitTestCase
 
 from sriaas_role_permissions.api.roles import (
     is_privileged,
@@ -10,7 +10,7 @@ from sriaas_role_permissions.api.roles import (
 )
 
 
-class TestSRIAASRolePermissionRole(FrappeTestCase):
+class TestSRIAASRolePermissionRole(UnitTestCase):
     def test_user_role_match_returns_boolean(self):
         with patch.object(frappe, "get_roles", return_value=["Agent", "Desk User"]):
             self.assertIs(user_has_any_role("agent@example.com", {"Agent"}), True)

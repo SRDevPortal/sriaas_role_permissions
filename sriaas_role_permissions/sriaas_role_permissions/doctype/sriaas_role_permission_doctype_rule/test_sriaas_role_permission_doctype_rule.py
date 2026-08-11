@@ -1,6 +1,5 @@
-import frappe
-from frappe.tests.utils import FrappeTestCase
+from frappe.tests import UnitTestCase
 
 
-class TestSRIAASRolePermissionDoctypeRule(FrappeTestCase):
+class TestSRIAASRolePermissionDoctypeRule(UnitTestCase):
     pass

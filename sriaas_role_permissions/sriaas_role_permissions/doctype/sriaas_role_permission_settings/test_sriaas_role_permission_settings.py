@@ -1,11 +1,11 @@
 import frappe
-from frappe.tests.utils import FrappeTestCase
+from frappe.tests import IntegrationTestCase
 
 from sriaas_role_permissions.api.config import get_available_doctype_config
 from sriaas_role_permissions.setup.runner import ensure_default_settings
 
 
-class TestSRIAASRolePermissionSettings(FrappeTestCase):
+class TestSRIAASRolePermissionSettings(IntegrationTestCase):
     def test_single_settings_loads(self):
         if frappe.db.exists("DocType", "SRIAAS Role Permission Settings"):
             self.assertEqual(

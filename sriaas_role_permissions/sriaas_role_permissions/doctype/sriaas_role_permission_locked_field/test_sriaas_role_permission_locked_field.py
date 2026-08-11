@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from frappe.tests.utils import FrappeTestCase
+from frappe.tests import UnitTestCase
 
 from sriaas_role_permissions.api import field_policy
 
@@ -12,7 +12,7 @@ LOCKED_FIELDS = {
 }
 
 
-class TestSRIAASRolePermissionLockedField(FrappeTestCase):
+class TestSRIAASRolePermissionLockedField(UnitTestCase):
     def get_policy(
         self,
         fieldname,
