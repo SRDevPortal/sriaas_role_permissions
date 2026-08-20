@@ -55,7 +55,7 @@ def ensure_default_settings():
         if row.ref_doctype
     }
     for ref_doctype, config in DEFAULT_DOCTYPE_CONFIGS.items():
-        if ref_doctype in existing_configs or not frappe.db.exists("DocType", ref_doctype):
+        if ref_doctype in existing_configs or not _config_schema_exists(config):
             continue
         settings.append("doctype_configs", {"enabled": 1, **config})
         changed = True
@@ -96,3 +96,23 @@ def ensure_default_settings():
     if changed:
         settings.save(ignore_permissions=True)
         frappe.db.commit()
+
+
+def _config_schema_exists(config):
+    ref_doctype = config.get("ref_doctype")
+    if not ref_doctype or not frappe.db.exists("DocType", ref_doctype):
+        return False
+
+    pipeline_doctype = config.get("pipeline_doctype")
+    if pipeline_doctype and not frappe.db.exists("DocType", pipeline_doctype):
+        return False
+
+    for fieldname in (config.get("pipeline_fieldname"), config.get("owner_fieldname")):
+        if fieldname and not frappe.db.has_column(ref_doctype, fieldname):
+            return False
+
+    team_leader_fieldname = config.get("team_leader_fieldname")
+    if team_leader_fieldname and not frappe.db.has_column("User", team_leader_fieldname):
+        return False
+
+    return True
