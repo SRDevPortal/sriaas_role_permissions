@@ -11,7 +11,9 @@
   "locked_fields_section",
   "locked_fields",
   "roles_section",
-  "roles"
+  "roles",
+  "privacy_number_section",
+  "privacy_number_roles"
  ],
  "fields": [
   {
@@ -59,6 +61,18 @@
    "fieldtype": "Table",
    "label": "Role Rules",
    "options": "SRIAAS Role Permission Role"
+  },
+  {
+   "fieldname": "privacy_number_section",
+   "fieldtype": "Section Break",
+   "label": "Customer Number Privacy"
+  },
+  {
+   "fieldname": "privacy_number_roles",
+   "fieldtype": "Table",
+   "label": "Customer Number Roles",
+   "options": "SRIAAS Customer Number Role",
+   "description": "Choose roles allowed to view complete patient/customer Phone and Mobile numbers. Roles assigned through a User Role Profile also apply. Any matching View Full role grants full visibility; otherwise numbers are masked. Edit Original is separate and still requires document write permission. Administrator has full access. Configuration alone does not activate masking."
   }
  ],
  "grid_page_length": 50,

@@ -9,6 +9,7 @@ class SRIAASRolePermissionSettings(Document):
         self._validate_rows()
         self._validate_doctype_configs()
         self._validate_locked_fields()
+        self._validate_privacy_roles()
 
     def on_update(self):
         frappe.clear_cache(doctype=self.doctype)
@@ -79,3 +80,12 @@ class SRIAASRolePermissionSettings(Document):
                 f"Field {fieldname} does not exist on {doctype}",
                 title="Invalid Setting",
             )
+
+    def _validate_privacy_roles(self):
+        seen = set()
+        for row in self.get("privacy_number_roles") or []:
+            if row.role == "Guest":
+                frappe.throw("Guest cannot receive customer number capabilities.")
+            if row.role in seen:
+                frappe.throw("Duplicate customer number role rule.")
+            seen.add(row.role)
