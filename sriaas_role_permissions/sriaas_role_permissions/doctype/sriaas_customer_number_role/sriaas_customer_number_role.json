@@ -9,7 +9,9 @@
   "role",
   "view_full",
   "edit_original",
-  "enter_new_numbers"
+  "enter_new_numbers",
+  "add_contact_numbers",
+  "change_primary_number"
  ],
  "fields": [
   {
@@ -18,29 +20,54 @@
    "options": "Role",
    "label": "Role",
    "reqd": 1,
-   "in_list_view": 1
+   "in_list_view": 1,
+   "columns": 3,
+   "description": "Role receiving these permissions."
   },
   {
    "fieldname": "view_full",
    "fieldtype": "Check",
-   "label": "View Full Numbers",
+   "label": "View Full",
    "default": "0",
-   "in_list_view": 1
+   "in_list_view": 1,
+   "columns": 1,
+   "description": "View complete stored Phone and Mobile numbers."
   },
   {
    "fieldname": "edit_original",
    "fieldtype": "Check",
-   "label": "Edit Original Numbers",
+   "label": "Edit Existing",
    "default": "0",
-   "in_list_view": 1
+   "in_list_view": 1,
+   "columns": 2,
+   "description": "Correct or replace existing stored numbers. Does not grant full-number visibility."
   },
   {
    "fieldname": "enter_new_numbers",
    "fieldtype": "Check",
-   "label": "Enter Numbers on New Patients",
+   "label": "New Patient Entry",
    "default": "0",
    "in_list_view": 1,
-   "description": "Allows entering newly supplied numbers when creating a Patient. Does not reveal or allow changes to existing numbers."
+   "description": "Enter customer-provided numbers when creating a Patient. Does not reveal existing numbers.",
+   "columns": 2
+  },
+  {
+   "fieldname": "add_contact_numbers",
+   "fieldtype": "Check",
+   "label": "Add Number",
+   "default": "0",
+   "description": "Add a customer-provided contact number while preserving existing numbers.",
+   "columns": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "change_primary_number",
+   "fieldtype": "Check",
+   "label": "Set Primary",
+   "default": "0",
+   "description": "Choose the primary Mobile and Phone from contact rows. Existing numbers remain masked unless View Full is granted.",
+   "columns": 1,
+   "in_list_view": 1
   }
  ],
  "permissions": []

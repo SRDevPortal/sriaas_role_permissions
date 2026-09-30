@@ -13,6 +13,7 @@
   "roles_section",
   "roles",
   "privacy_number_section",
+  "privacy_number_notes",
   "privacy_number_roles"
  ],
  "fields": [
@@ -68,11 +69,15 @@
    "label": "Customer Number Privacy"
   },
   {
+   "fieldname": "privacy_number_notes",
+   "fieldtype": "HTML",
+   "options": "<div class=\"alert alert-info\" role=\"note\" style=\"margin-bottom: 12px;\">\n<span class=\"badge badge-info\">Note</span>\n<strong style=\"margin-left: 6px;\">Phone and Mobile permissions</strong>\n<ul style=\"margin: 8px 0 0; padding-left: 20px;\">\n<li><strong>Role:</strong> The user role receiving these permissions.</li>\n<li><strong>View Full:</strong> Show complete stored Phone and Mobile numbers instead of masks.</li>\n<li><strong>Edit Existing:</strong> Correct or replace stored numbers. Does not automatically allow viewing full numbers.</li>\n<li><strong>New Patient Entry:</strong> Enter customer-provided numbers when registering a new Patient.</li>\n<li><strong>Add Number:</strong> Add a customer-provided contact number while keeping existing numbers.</li>\n<li><strong>Set Primary:</strong> Choose which contact number is the primary Mobile or Phone.</li>\n</ul>\n<p style=\"margin: 8px 0 0;\">Adding numbers or setting primary numbers does not reveal previously stored full numbers. Normal record permissions still apply.</p>\n</div>"
+  },
+  {
    "fieldname": "privacy_number_roles",
    "fieldtype": "Table",
-   "label": "Customer Number Roles",
-   "options": "SRIAAS Customer Number Role",
-   "description": "Choose roles allowed to view complete patient/customer Phone and Mobile numbers. Roles assigned through a User Role Profile also apply. Any matching View Full role grants full visibility; otherwise numbers are masked. Edit Original is separate and still requires document write permission. Administrator has full access. Configuration alone does not activate masking."
+   "label": "Role Permissions",
+   "options": "SRIAAS Customer Number Role"
   }
  ],
  "grid_page_length": 50,

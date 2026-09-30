@@ -3,6 +3,7 @@
 
 frappe.ui.form.on("SRIAAS Role Permission Settings", {
   refresh(frm) {
+    configure_number_privacy_grid(frm);
     frm.set_query("ref_doctype", "roles", () => ({
       filters: {
         istable: 0,
@@ -100,3 +101,31 @@ frappe.ui.form.on("SRIAAS Role Permission Settings", {
     });
   },
 });
+
+// This settings matrix always shows every permission, including for users with
+// an older saved grid layout. Scope layout changes to this grid instance only.
+function configure_number_privacy_grid(frm) {
+  const grid = frm.fields_dict.privacy_number_roles?.grid;
+  if (!grid || grid.__number_privacy_layout) return;
+  grid.__number_privacy_layout = true;
+  grid.editable_fields = [
+    {fieldname: "role", columns: 3},
+    {fieldname: "view_full", columns: 1},
+    {fieldname: "edit_original", columns: 2},
+    {fieldname: "enter_new_numbers", columns: 2},
+    {fieldname: "add_contact_numbers", columns: 1},
+    {fieldname: "change_primary_number", columns: 1}
+  ];
+  grid.setup_user_defined_columns = function () { this.user_defined_columns = []; };
+  grid.wrapper.addClass("number-privacy-grid");
+  if (!document.getElementById("number-privacy-grid-style")) {
+    $("<style>", {id: "number-privacy-grid-style", text: `
+      .number-privacy-grid { overflow-x: auto; }
+      .number-privacy-grid .form-grid { min-width: 1100px; }
+      .number-privacy-grid .grid-heading-row .static-area {
+        white-space: normal; overflow: visible; text-overflow: clip;
+      }
+    `}).appendTo(document.head);
+  }
+  grid.reset_grid();
+}
