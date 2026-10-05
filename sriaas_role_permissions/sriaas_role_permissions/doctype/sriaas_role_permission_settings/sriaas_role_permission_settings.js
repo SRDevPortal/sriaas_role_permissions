@@ -4,6 +4,7 @@
 frappe.ui.form.on("SRIAAS Role Permission Settings", {
   refresh(frm) {
     configure_number_privacy_grid(frm);
+    load_number_privacy_control(frm);
     frm.set_query("ref_doctype", "roles", () => ({
       filters: {
         istable: 0,
@@ -128,4 +129,82 @@ function configure_number_privacy_grid(frm) {
     `}).appendTo(document.head);
   }
   grid.reset_grid();
+}
+
+// This control updates the existing site switch. The form Save button continues
+// to save role rules; it never silently activates or disables privacy.
+function load_number_privacy_control(frm) {
+  const wrapper = frm.fields_dict.privacy_number_control?.$wrapper;
+  if (!wrapper) return;
+  wrapper.empty().text(__("Loading privacy status…"));
+  frappe.call({
+    method: "sriaas_role_permissions.customer_number_privacy.get_status",
+    callback(r) {
+      render_number_privacy_control(frm, r.message);
+    },
+    error() {
+      wrapper.empty().text(__("Privacy status unavailable. Reload to try again."));
+    }
+  });
+}
+
+function render_number_privacy_control(frm, status) {
+  const wrapper = frm.fields_dict.privacy_number_control?.$wrapper;
+  if (!wrapper || !status) return;
+  wrapper.empty();
+  const label = !status.installed ? __("Privacy Shield is not installed")
+    : status.enabled ? __("Active") : __("Inactive");
+  $("<span>", {
+    class: "indicator-pill " + (status.installed && status.enabled ? "green" : "orange"),
+    text: label
+  }).appendTo(wrapper);
+  const row = $("<div>", {class: "mt-3 mb-2"}).appendTo(wrapper);
+  const toggleLabel = $("<label>").appendTo(row);
+  const toggle = $("<input>", {type: "checkbox", class: "mr-2"})
+    .prop("checked", Boolean(status.enabled)).appendTo(toggleLabel);
+  $("<span>", {text: __("Enable Customer Number Privacy")}).appendTo(toggleLabel);
+  const apply = $("<button>", {
+    type: "button", class: "btn btn-sm btn-primary ml-3",
+    text: __("Apply Privacy Setting")
+  }).prop("disabled", true).appendTo(row);
+  const note = $("<p>", {class: "text-muted small"}).appendTo(wrapper);
+  const canWrite = Boolean(frm.perm?.[0]?.write);
+  toggle.prop("disabled", !canWrite || (!status.installed && !status.enabled));
+  function update_pending() {
+    const changed = toggle.prop("checked") !== Boolean(status.enabled);
+    apply.prop("disabled", !canWrite || !changed);
+    note.text(changed ? __("Pending change. Click Apply Privacy Setting to activate it.")
+      : __("Role rules use Save. This switch uses Apply Privacy Setting. Refresh open customer pages after changing it."));
+  }
+  toggle.on("change", update_pending);
+  update_pending();
+  $("<p>", {
+    class: "text-muted small",
+    text: __("When active, supported screens mask existing numbers unless a role grants View Full. Turning it off restores normal access on those screens, subject to document permissions. Appointment patient lookups and support customer lookups keep their existing protection. Supported Vobiz call and AI workflows apply the same saved role policy.")
+  }).appendTo(wrapper);
+  apply.on("click", () => {
+    if (frm.is_dirty()) {
+      frappe.msgprint(__("Save your role-rule changes before applying the privacy setting."));
+      return;
+    }
+    const desired = toggle.prop("checked");
+    const message = desired
+      ? __("Enable Customer Number Privacy using the saved role rules?")
+      : __("Disable Customer Number Privacy? Users may see full numbers on switch-controlled screens when document permissions allow.");
+    frappe.confirm(message, () => {
+      apply.prop("disabled", true);
+      toggle.prop("disabled", true);
+      frappe.call({
+        method: "sriaas_role_permissions.customer_number_privacy.set_enabled",
+        type: "POST",
+        args: {enabled: Number(desired), expected_enabled: Number(Boolean(status.enabled))},
+        freeze: true,
+        callback() {
+          frappe.show_alert({message: __("Privacy setting updated. Refresh open customer pages."), indicator: "green"});
+          frm.reload_doc();
+        },
+        error() { load_number_privacy_control(frm); }
+      });
+    });
+  });
 }

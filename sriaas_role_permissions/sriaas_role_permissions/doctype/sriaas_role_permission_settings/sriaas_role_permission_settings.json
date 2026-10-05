@@ -13,6 +13,7 @@
   "roles_section",
   "roles",
   "privacy_number_section",
+  "privacy_number_control",
   "privacy_number_notes",
   "privacy_number_roles"
  ],
@@ -66,6 +67,11 @@
   {
    "fieldname": "privacy_number_section",
    "fieldtype": "Section Break",
+   "label": "Customer Number Privacy"
+  },
+  {
+   "fieldname": "privacy_number_control",
+   "fieldtype": "HTML",
    "label": "Customer Number Privacy"
   },
   {
