@@ -4,6 +4,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "general_tab",
   "enabled",
   "description",
   "doctype_config_section",
@@ -12,10 +13,13 @@
   "locked_fields",
   "roles_section",
   "roles",
+  "role_access_actions",
+  "number_privacy_tab",
   "privacy_number_section",
   "privacy_number_control",
   "privacy_number_notes",
-  "privacy_number_roles"
+  "privacy_number_roles",
+  "privacy_display_example"
  ],
  "fields": [
   {
@@ -34,7 +38,9 @@
   {
    "fieldname": "doctype_config_section",
    "fieldtype": "Section Break",
-   "label": "DocType Rules"
+   "label": "DocType Rules",
+   "collapsible": 1,
+   "css_class": "role-settings-doctype_config_section"
   },
   {
    "fieldname": "doctype_configs",
@@ -45,7 +51,9 @@
   {
    "fieldname": "locked_fields_section",
    "fieldtype": "Section Break",
-   "label": "Field Rules"
+   "label": "Field Rules",
+   "collapsible": 1,
+   "css_class": "role-settings-locked_fields_section"
   },
   {
    "fieldname": "locked_fields",
@@ -56,7 +64,9 @@
   {
    "fieldname": "roles_section",
    "fieldtype": "Section Break",
-   "label": "Role Rules"
+   "label": "Role Rules",
+   "collapsible": 1,
+   "css_class": "role-settings-roles_section"
   },
   {
    "fieldname": "roles",
@@ -77,13 +87,32 @@
   {
    "fieldname": "privacy_number_notes",
    "fieldtype": "HTML",
-   "options": "<div class=\"alert alert-info\" role=\"note\" style=\"margin-bottom: 12px;\">\n<span class=\"badge badge-info\">Note</span>\n<strong style=\"margin-left: 6px;\">Phone and Mobile permissions</strong>\n<ul style=\"margin: 8px 0 0; padding-left: 20px;\">\n<li><strong>Role:</strong> The user role receiving these permissions.</li>\n<li><strong>View Full:</strong> Show complete stored Phone and Mobile numbers instead of masks.</li>\n<li><strong>Edit Existing:</strong> Correct or replace stored numbers. Does not automatically allow viewing full numbers.</li>\n<li><strong>New Patient Entry:</strong> Enter customer-provided numbers when registering a new Patient.</li>\n<li><strong>Add Number:</strong> Add a customer-provided contact number while keeping existing numbers.</li>\n<li><strong>Set Primary:</strong> Choose which contact number is the primary Mobile or Phone.</li>\n</ul>\n<p style=\"margin: 8px 0 0;\">Adding numbers or setting primary numbers does not reveal previously stored full numbers. Normal record permissions still apply.</p>\n</div>"
+   "options": "<details class=\"role-settings-guide\"><summary>Permission Guide</summary><div class=\"alert alert-info\" role=\"note\" style=\"margin-bottom: 12px;\">\n<span class=\"badge badge-info\">Note</span>\n<strong style=\"margin-left: 6px;\">Phone and Mobile permissions</strong>\n<ul style=\"margin: 8px 0 0; padding-left: 20px;\">\n<li><strong>Role:</strong> Only users with at least one role listed in this table are subject to number masking. Users with no listed role see full numbers; this does not grant editing permissions.</li>\n<li><strong>View Full:</strong> Show complete stored Phone and Mobile numbers instead of masks.</li>\n<li><strong>Edit Existing:</strong> Correct or replace stored numbers. Does not automatically allow viewing full numbers.</li>\n<li><strong>New Patient Entry:</strong> Enter customer-provided numbers when registering a new Patient.</li>\n<li><strong>Add Number:</strong> Add a customer-provided contact number while keeping existing numbers.</li>\n<li><strong>Set Primary:</strong> Choose which contact number is the primary Mobile or Phone.</li>\n</ul>\n<p style=\"margin: 8px 0 0;\">Adding numbers or setting primary numbers does not reveal previously stored full numbers. Normal record permissions still apply.</p>\n</div></details>"
   },
   {
    "fieldname": "privacy_number_roles",
    "fieldtype": "Table",
    "label": "Role Permissions",
    "options": "SRIAAS Customer Number Role"
+  },
+  {
+   "fieldname": "general_tab",
+   "fieldtype": "Tab Break",
+   "label": "Role Access"
+  },
+  {
+   "fieldname": "number_privacy_tab",
+   "fieldtype": "Tab Break",
+   "label": "Number Privacy"
+  },
+  {
+   "fieldname": "role_access_actions",
+   "fieldtype": "HTML"
+  },
+  {
+   "fieldname": "privacy_display_example",
+   "fieldtype": "HTML",
+   "options": "<div class=\"role-settings-display-example\" role=\"note\"><strong>Display example</strong><span class=\"role-settings-example-number\">******3210</span><span>For users with listed roles, stored numbers stay masked unless a matching role grants View Full. Users with no listed role see full numbers. This is a synthetic example.</span></div>"
   }
  ],
  "grid_page_length": 50,
