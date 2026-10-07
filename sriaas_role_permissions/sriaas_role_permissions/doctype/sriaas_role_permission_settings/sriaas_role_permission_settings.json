@@ -112,7 +112,7 @@
   {
    "fieldname": "privacy_display_example",
    "fieldtype": "HTML",
-   "options": "<div class=\"role-settings-display-example\" role=\"note\"><strong>Display example</strong><span class=\"role-settings-example-number\">******3210</span><span>For users with listed roles, stored numbers stay masked unless a matching role grants View Full. Users with no listed role see full numbers. This is a synthetic example.</span></div>"
+   "options": "<div class=\"role-settings-display-example\" role=\"note\"><strong>Display example</strong><span class=\"role-settings-example-number\">******3210</span><span>For users with listed roles, stored numbers stay masked unless a matching role grants View Full. Users with no matching listed role are exempt from privacy restrictions; normal record permissions still apply. This is a synthetic example.</span></div>"
   }
  ],
  "grid_page_length": 50,
